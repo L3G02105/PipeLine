@@ -23,9 +23,12 @@ jobs:
     steps:
       - name: Send Telegram message
         run: |
-          STATUS="${{ needs.test.result }}"
-          curl -s -X POST https://api.telegram.org/bot${{ secrets.TG_BOT_TOKEN }}/sendMessage \
-          -d chat_id=${{ secrets.TG_CHAT_ID }} \
-          -d text="PR #${{ github.event.pull_request.number }} status: ${STATUS}"
+             STATUS="${{ needs.test.result }}"
+             RESPONSE=$(curl -s -X POST https://api.telegram.org/bot${{ secrets.TG_BOT_TOKEN }}/sendMessage \
+             -d chat_id=${{ secrets.TG_CHAT_ID }} \
+             -d text="PR #${{ github.event.pull_request.number }} status: ${STATUS}")
+
+             echo "Telegram response:"
+             echo $RESPONSE
 
           
